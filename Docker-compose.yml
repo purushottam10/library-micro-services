@@ -1,0 +1,69 @@
+ version: '3.3'
+services:
+  library-mysqldb:
+    image: mysql:latest
+#    build: .
+     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Decipher@123'
+      MYSQL_PASSWORD: 'Decipher@123'
+      MYSQL_USER: 'Decipher@123'
+      MYSQL_DATABASE: 'library'
+    ports:
+      - '3308:3306'
+    networks:
+      - library-network
+
+  lib-service:
+    build: ./lib-service/
+#      dockerfile: lib-service/Dockerfile
+    ports:
+      - "1111:1111"
+    expose:
+      - 1111
+    networks:
+      - library-network
+
+      library-db:
+          build: ./library-db/
+      #      dockerfile: library-db/Dockerfile
+          ports:
+            - "1112:1112"
+          expose:
+            - 1112
+          networks:
+            - library-network
+    depends_on:
+      - library-mysqldb
+    links:
+      - library-mysqldb
+
+   member-service:
+     build: ./member-service/
+     #dockerfile: ember-service/Dockerfile
+      ports:
+      - "1113:1113"
+      expose:
+      - 1113
+      networks:
+      - library-network
+      depends_on:
+      - library-mysqldb
+      links:
+      - library-mysqldb
+  user-limit-service -service:
+      build: ./user-limit-service/
+      #dockerfile: library-db/Dockerfile
+       ports:
+       - "1114:111"
+       expose:
+       - 1114
+       networks:
+       - library-network
+       depends_on:
+       - library-mysqldb
+       links:
+       - library-mysqldb
+
+networks:
+  library-network:
