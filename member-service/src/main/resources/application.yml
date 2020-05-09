@@ -1,0 +1,27 @@
+server:
+  port: 1113
+
+spring:
+  application:
+    name: member-service
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://127.0.0.1:3306/library
+    password: Decipher@123
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    hostname: localhost
+
+
+#RESTCLINET_USER_URL: lo
