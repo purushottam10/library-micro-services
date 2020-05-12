@@ -63,7 +63,6 @@ services:
       MYSQL_ROOT_PASSWORD: Decipher@123
       MYSQL_DATABASE: library
     volumes:
-      - db-data: c:data/mysql
-
+       - db-data:/data/mysql
 volumes:
   db-data:
