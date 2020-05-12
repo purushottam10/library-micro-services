@@ -1,69 +1,69 @@
-version: '3.3'
+ version: '3.3'
 services:
-  lib-server:
-    build: ./lib-server/
-    container_name: discovery-server
-    ports:
-      - "1111:1111"
-
-  library-db:
-    build: ./library-db/
-    container_name: library-db
-    ports:
-      - "1112:1112"
-    depends_on:
-      - library-mysql
-    links:
-      - lib-server
-    environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Decipher@123
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
-
-  member-service:
-    build: ./member-service/
-    container_name: member-service
-    ports:
-      - "1113:1113"
-    depends_on:
-      - library-db
-    links:
-      - lib-server
-    environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Decipher@123
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
-
-  user-limit-service:
-    build: ./user-limit-service/
-    container_name: user-limit-service
-    ports:
-      - "1114:1114"
-    depends_on:
-      - library-db
-    links:
-      - lib-server
-      - library-db
-      - library-mysql
-    environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Decipher@123
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
-
-  library-mysql:
+  library-mysqldb:
     image: mysql:latest
-    container_name: library-database
-    restart: on-failure
+#    build: .
+     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Decipher@123'
+      MYSQL_PASSWORD: 'Decipher@123'
+      MYSQL_USER: 'Decipher@123'
+      MYSQL_DATABASE: 'library'
     ports:
       - '3308:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: Decipher@123
-      MYSQL_DATABASE: library
-    volumes:
-      - db-data: c:data/mysql
+    networks:
+      - library-network
 
-volumes:
-  db-data:
+  lib-service:
+    build: ./lib-service/
+#      dockerfile: lib-service/Dockerfile
+    ports:
+      - "1111:1111"
+    expose:
+      - 1111
+    networks:
+      - library-network
+
+      library-db:
+          build: ./library-db/
+      #      dockerfile: library-db/Dockerfile
+          ports:
+            - "1112:1112"
+          expose:
+            - 1112
+          networks:
+            - library-network
+    depends_on:
+      - library-mysqldb
+    links:
+      - library-mysqldb
+
+   member-service:
+     build: ./member-service/
+     #dockerfile: ember-service/Dockerfile
+      ports:
+      - "1113:1113"
+      expose:
+      - 1113
+      networks:
+      - library-network
+      depends_on:
+      - library-mysqldb
+      links:
+      - library-mysqldb
+  user-limit-service -service:
+      build: ./user-limit-service/
+      #dockerfile: library-db/Dockerfile
+       ports:
+       - "1114:111"
+       expose:
+       - 1114
+       networks:
+       - library-network
+       depends_on:
+       - library-mysqldb
+       links:
+       - library-mysqldb
+
+networks:
+  library-network:
