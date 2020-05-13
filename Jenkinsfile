@@ -1,17 +1,22 @@
-node {
-     stage('Build'){
+pipeline {
+    agent any
 
-     git url: 'https://github.com/Purushottam10/library-micro-services'
+    stages {
+        stage ('Compile Stage') {
 
-         withMaven(maven: 'maven-3',mavenSettingsConfig: 'my-maven-settings'){
-         sh "mvn clean verify install"
-         }
+            steps {
+                withMaven(maven : 'MAVEN_HOME') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
 
-     }
-
-     stage('Deploy'){
-         steps {
-            sh 'make publish'
-         }
-     }
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'MAVEN_HOME') {
+                    sh 'mvn deploy'
+                }
+            }
+        }
+    }
 }
