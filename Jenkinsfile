@@ -1,13 +1,13 @@
 node {
 
         stage('Checkout') {
-            git url: 'https://github.com/Purushottam10/library-micro-services.git', branch: 'dev'
+            git url: 'https://github.com/Purushottam10/library-micro-services.git', branch: 'lib-server'
         }
  
         stage('Build') {
             sh 'mvn clean install'
  
-            def pom = readMavenPom file:'lib-server/pom.xml'
+            def pom = readMavenPom file:'pom.xml'
             print pom.version
             env.version = pom.version
         }
