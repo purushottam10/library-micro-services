@@ -1,7 +1,7 @@
 node {
 
         stage('Checkout') {
-            git url: 'https://github.com/Purushottam10/library-micro-services.git', credentialsId: 'github-piomin', branch: 'dev'
+            git url: 'https://github.com/Purushottam10/library-micro-services.git', branch: 'dev'
         }
  
         stage('Build') {
