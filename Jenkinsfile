@@ -1,7 +1,5 @@
 node {
- 
-    withMaven(maven:'maven') {
- 
+
         stage('Checkout') {
             git url: 'https://github.com/Purushottam10/library-micro-services.git', credentialsId: 'github-piomin', branch: 'dev'
         }
