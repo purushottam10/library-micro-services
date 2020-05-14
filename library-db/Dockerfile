@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk-alpine
 EXPOSE 1112
-COPY target/library-db.war library-db.war
+WORKDIR /usr/library
+ADD target/library-db.war /usr/library/library-db.war
 ENTRYPOINT ["java","-jar","library-db.war"]

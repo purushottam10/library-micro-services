@@ -11,12 +11,10 @@ services:
     container_name: library-db
     ports:
       - "1112:1112"
-    depends_on:
-      - library-mysql
     links:
       - lib-server
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://library-mysql:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Decipher@123
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
@@ -26,12 +24,10 @@ services:
     container_name: member-service
     ports:
       - "1113:1113"
-    depends_on:
-      - library-db
     links:
       - lib-server
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://library-mysql:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Decipher@123
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
@@ -41,14 +37,10 @@ services:
     container_name: user-limit-service
     ports:
       - "1114:1114"
-    depends_on:
-      - library-db
     links:
-      - lib-server
-      - library-db
       - library-mysql
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://library-db:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://library-mysql:3306/library?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Decipher@123
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:1111/eureka
