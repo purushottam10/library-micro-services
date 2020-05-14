@@ -5,27 +5,57 @@ node {
         }
 
             dir('lib-server') {
-            stage('Build') {
-                sh 'mvn clean install'
 
-                def pom = readMavenPom file:'lib-server/pom.xml'
-                print pom.version
-                env.version = pom.version
-            }
-
-            stage('Image') {
-                dir ('discovery-service') {
-                    def app = docker.build "localhost:1111/discovery-service:${env.version}"
-                    app.push()
+             stage("Compilation and Analysis") {
+                parallel 'Compilation': {
+                    if (isUnix()) {
+                        sh "./mvnw clean install -DskipTests"
+                    } else {
+                        bat "./mvnw.cmd clean install -DskipTests"
+                    }
                 }
-            }
+             }
+             stage("Tests and Deployment") {
 
-            stage ('Run') {
-                docker.image("localhost:1111/discovery-service:${env.version}").run('-p 1111:1111 -h discovery --name discovery')
-            }
-
-            stage ('Final') {
-                build job: 'account-service-pipeline', wait: false
-            }
+             }
         }
+
+         dir('library-db') {
+
+             stage("Compilation and Analysis") {
+                parallel 'Compilation': {
+                    if (isUnix()) {
+                        sh "./mvnw clean install -DskipTests"
+                    } else {
+                        bat "./mvnw.cmd clean install -DskipTests"
+                    }
+                }
+             }
+         }
+
+         dir('member-service') {
+
+              stage("Compilation and Analysis") {
+                 parallel 'Compilation': {
+                     if (isUnix()) {
+                         sh "./mvnw clean install -DskipTests"
+                     } else {
+                         bat "./mvnw.cmd clean install -DskipTests"
+                     }
+                 }
+              }
+         }
+
+         dir('user-limit-service') {
+
+              stage("Compilation and Analysis") {
+                 parallel 'Compilation': {
+                     if (isUnix()) {
+                         sh "./mvnw clean install -DskipTests"
+                     } else {
+                         bat "./mvnw.cmd clean install -DskipTests"
+                     }
+                 }
+              }
+         }
 }
