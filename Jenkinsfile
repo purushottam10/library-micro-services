@@ -2,9 +2,9 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
   pipeline
   {
    agent any
-        
-         git url: 'https://github.com/Purushottam10/library-micro-services.git', branch: 'dev'
- 
+       tools {
+            	maven 'apache-maven-3.6.0' 
+           }
         stages{
           stage('Build App') {
             steps{
