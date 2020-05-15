@@ -8,9 +8,9 @@ node {
              stage("Build") {
                 parallel 'Compilation': {
                     if (isUnix()) {
-                      sudo sh "./mvnw clean install -DskipTests"
+                      sudo "./mvnw clean install -DskipTests"
                     } else {
-                        bat "./mvnw.cmd clean install -DskipTests"
+                         "./mvnw.cmd clean install -DskipTests"
                     }
                 }
              }
@@ -20,9 +20,9 @@ node {
              stage("Build") {
                 parallel 'Compilation': {
                     if (isUnix()) {
-                      sudo sh "./mvnw clean install -DskipTests"
+                      sudo "./mvnw clean install -DskipTests"
                     } else {
-                        bat "./mvnw.cmd clean install -DskipTests"
+                        "./mvnw.cmd clean install -DskipTests"
                     }
                 }
              }
@@ -32,9 +32,9 @@ node {
               stage("Build") {
                  parallel 'Compilation': {
                      if (isUnix()) {
-                       sudo sh "./mvnw clean install -DskipTests"
+                       sudo ./mvnw clean install -DskipTests"
                      } else {
-                         bat "./mvnw.cmd clean install -DskipTests"
+                         "./mvnw.cmd clean install -DskipTests"
                      }
                  }
               }
@@ -44,7 +44,7 @@ node {
               stage("Build") {
                  parallel 'Compilation': {
                      if (isUnix()) {
-                        sudo sh "./mvnw clean install -DskipTests"
+                        sudo "./mvnw clean install -DskipTests"
                      } else {
                          bat "./mvnw.cmd clean install -DskipTests"
                      }
