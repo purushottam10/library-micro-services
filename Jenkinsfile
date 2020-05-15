@@ -46,7 +46,7 @@ node {
                      if (isUnix()) {
                         sudo "./mvnw clean install -DskipTests"
                      } else {
-                         bat "./mvnw.cmd clean install -DskipTests"
+                         "./mvnw.cmd clean install -DskipTests"
                      }
                  }
               }
