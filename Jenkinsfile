@@ -5,27 +5,22 @@ node {
         }
 
             dir('lib-server') {
-
-             stage("Compilation and Analysis") {
+             stage("Build") {
                 parallel 'Compilation': {
                     if (isUnix()) {
-                        sh "./mvnw clean install -DskipTests"
+                      sudo sh "./mvnw clean install -DskipTests"
                     } else {
                         bat "./mvnw.cmd clean install -DskipTests"
                     }
                 }
              }
-             stage("Tests and Deployment") {
-
-             }
         }
 
          dir('library-db') {
-
-             stage("Compilation and Analysis") {
+             stage("Build") {
                 parallel 'Compilation': {
                     if (isUnix()) {
-                        sh "./mvnw clean install -DskipTests"
+                      sudo sh "./mvnw clean install -DskipTests"
                     } else {
                         bat "./mvnw.cmd clean install -DskipTests"
                     }
@@ -34,11 +29,10 @@ node {
          }
 
          dir('member-service') {
-
-              stage("Compilation and Analysis") {
+              stage("Build") {
                  parallel 'Compilation': {
                      if (isUnix()) {
-                         sh "./mvnw clean install -DskipTests"
+                       sudo sh "./mvnw clean install -DskipTests"
                      } else {
                          bat "./mvnw.cmd clean install -DskipTests"
                      }
@@ -47,11 +41,10 @@ node {
          }
 
          dir('user-limit-service') {
-
-              stage("Compilation and Analysis") {
+              stage("Build") {
                  parallel 'Compilation': {
                      if (isUnix()) {
-                         sh "./mvnw clean install -DskipTests"
+                        sudo sh "./mvnw clean install -DskipTests"
                      } else {
                          bat "./mvnw.cmd clean install -DskipTests"
                      }
