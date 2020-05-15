@@ -2,9 +2,9 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
   pipeline
   {
    agent any
-        step('checkout'){
+        
          git url: 'https://github.com/Purushottam10/library-micro-services.git', branch: 'dev'
-        }
+ 
         stages{
           stage('Build App') {
             steps{
