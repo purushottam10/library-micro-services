@@ -3,7 +3,7 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
   {
    agent any
     tools {
-	maven 'maven-3.6.0' 
+	maven 'maven' 
 }
         stages{
           stage('Build App') {
