@@ -8,7 +8,7 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
         stages{
           stage('Build App') {
             steps{
-              dir('liv-server'){
+              dir('lib-server'){
                   script {
                       def pom = readMavenPom file: 'pom.xml'
                       version = pom.version
