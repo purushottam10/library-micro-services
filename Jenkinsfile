@@ -54,7 +54,7 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
                   deploy adapters: [tomcat9(credentialsId[username: 'manager-script' password:'qwerty'], path: '/', url: "https://localhost:8089/member-service")], onFailure: false, war: 'target/*.war'
                 }
                 dir('user-limit-service'){
-                  deploy adapters: [tomcat9(credentialsId[username: 'manager-script' password:'qwerty'], path: '/', url: "https://localhost:8089/user-limit-service")], onFailure: false, war: 'target/*.war'
+                  deploy adapters: [tomcat9(username: 'manager-script' password:'qwerty, path: '/', url: "https://localhost:8089/user-limit-service")], onFailure: false, war: 'target/*.war'
                 }
            }
 
