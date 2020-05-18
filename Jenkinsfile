@@ -59,22 +59,22 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
                steps {
                    dir('lib-server'){
                        deploy adapters {
-                        [tomcat9(credentialsId 'server', path: '/', url: "https://localhost:8089/lib-server")], onFailure: false, war: 'target/*.war'
+                        [tomcat9(credentialsId:'server', path: '/', url: "https://localhost:8089/lib-server")], onFailure: false, war: 'target/*.war'
                        }
                    }
                     dir('library-dbr'){
                       deploy adapters {
-                      [tomcat9(credentialsId 'server', path: '/', url: "https://localhost:8089/library-db")], onFailure: false, war: 'target/*.war'
+                      [tomcat9(credentialsId:'server', path: '/', url: "https://localhost:8089/library-db")], onFailure: false, war: 'target/*.war'
                       }
                     }
                     dir('member-service') {
                       deploy adapters {
-                      [tomcat9(credentialsId 'server', path: '/', url: "https://localhost:8089/member-service")], onFailure: false, war: 'target/*.war'
+                      [tomcat9(credentialsId:'server', path: '/', url: "https://localhost:8089/member-service")], onFailure: false, war: 'target/*.war'
                       }
                     }
                     dir('user-limit-service'){
                       deploy adapters {
-                      [tomcat9(credentialsId 'server', path: '/', url: "https://localhost:8089/user-limit-service")], onFailure: false, war: 'target/*.war'
+                      [tomcat9(credentialsId:'server', path: '/', url: "https://localhost:8089/user-limit-service")], onFailure: false, war: 'target/*.war'
                       }
                     }
                }
