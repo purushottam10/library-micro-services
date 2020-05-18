@@ -7,18 +7,7 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
             }
             stages{
 
-            stage('usernamePassword') {
-                  steps {
-                    script {
-                      withCredentials([
-                        usernamePassword(credentialsId: 'server',
-                          usernameVariable: 'manager',
-                          passwordVariable: 's3cret')
-                      ])
-                    }
-                  }
-                }
-
+           
               stage('Build App') {
                 steps{
                   dir('lib-server'){
