@@ -1,5 +1,6 @@
 package io.dz.librarydb.service.impl;
 
+import io.dz.librarydb.dto.ResponseDto;
 import io.dz.librarydb.util.DateUtil;
 import io.dz.librarydb.config.PropertiesConfig;
 import io.dz.librarydb.dao.BookDao;
@@ -41,8 +42,10 @@ public class BookServiceImpl implements BookService {
 
     @Cacheable(value = "book",key = "'book'")
     @Override
-    public List<Book> getAll() {
-        return (List<Book>) bookDao.findAll() ;
+    public ResponseDto<Book> getAll() {
+        ResponseDto<Book> bookResponseDto = new ResponseDto<>();
+        bookResponseDto.setData((List<Book>)bookDao.findAll());
+        return bookResponseDto;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Cacheable("book")
+    @Cacheable(value = "book",key = "'bookCache'")
     public Book getById(String id) {
         LOGGER.info("retrieve book by Id ");
         return bookDao.findById(id).orElseThrow(()->new RestException("no such Book found in the Collection",HttpStatus.NOT_FOUND));

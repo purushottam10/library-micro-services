@@ -1,12 +1,13 @@
 package io.dz.librarydb.service;
 
 
+import io.dz.librarydb.dto.ResponseDto;
 import io.dz.librarydb.model.Book;
 
 import java.util.List;
 
 public interface BookService {
-    List<Book> getAll();
+    ResponseDto<Book> getAll();
 
     Book save(Book book);
 

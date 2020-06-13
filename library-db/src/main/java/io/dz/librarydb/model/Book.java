@@ -50,7 +50,7 @@ public class Book implements Serializable {
                 Objects.equals(available,that.available)&&
                 Objects.equals(title,that.title)&&
                 Objects.equals(dueDate,that.dueDate)&&
-               Objects.equals(returnDate,that.returnDate)&&
+                Objects.equals(returnDate,that.returnDate)&&
                 Objects.equals(createdAt,that.createdAt)&&
                 Objects.equals(isDeleted,that.isDeleted)&&
                 Objects.equals(updatedAt,that.updatedAt)&&
