@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: library_db
+    name: library-db
     jpa:
       properties:
         hibernate:
