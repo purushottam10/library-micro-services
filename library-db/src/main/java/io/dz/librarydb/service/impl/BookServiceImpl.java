@@ -1,7 +1,6 @@
 package io.dz.librarydb.service.impl;
 
-
-import io.dz.library_db.util.DateUtil;
+import io.dz.librarydb.util.DateUtil;
 import io.dz.librarydb.config.PropertiesConfig;
 import io.dz.librarydb.dao.BookDao;
 import io.dz.librarydb.exception.RestException;
@@ -40,7 +39,7 @@ public class BookServiceImpl implements BookService {
         this.propertiesConfig = propertiesConfig;
     }
 
-    @Cacheable(value = "book",key = "book")
+    @Cacheable(value = "book",key = "'book'")
     @Override
     public List<Book> getAll() {
         return (List<Book>) bookDao.findAll() ;
@@ -56,6 +55,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Cacheable("book")
     public Book getById(String id) {
         LOGGER.info("retrieve book by Id ");
         return bookDao.findById(id).orElseThrow(()->new RestException("no such Book found in the Collection",HttpStatus.NOT_FOUND));

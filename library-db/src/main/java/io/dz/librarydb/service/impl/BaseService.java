@@ -1,4 +1,4 @@
-package io.dz.library_db.service.impl;
+package io.dz.librarydb.service.impl;
 
 import java.util.List;
 

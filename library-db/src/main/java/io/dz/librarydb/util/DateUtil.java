@@ -1,4 +1,4 @@
-package io.dz.library_db.util;
+package io.dz.librarydb.util;
 
 import java.sql.Date;
 import java.util.Calendar;
