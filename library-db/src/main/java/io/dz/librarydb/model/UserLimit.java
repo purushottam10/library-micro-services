@@ -1,6 +1,10 @@
 package io.dz.librarydb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +14,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_limit")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserLimit {
     @Id
@@ -17,20 +25,4 @@ public class UserLimit {
     private String memberId;
     private int total_book;
 
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
-    }
-
-    public int getTotal_book() {
-        return total_book;
-    }
-
-    public void setTotal_book(int total_book) {
-        this.total_book = total_book;
-    }
 }

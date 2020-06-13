@@ -9,9 +9,13 @@ import io.dz.librarydb.model.Book;
 import io.dz.librarydb.model.Member;
 import io.dz.librarydb.model.UserLimit;
 import io.dz.librarydb.service.BookService;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
     private BookDao bookDao;
     private RestTemplate restTemplate;
     private PropertiesConfig propertiesConfig;
@@ -34,6 +39,8 @@ public class BookServiceImpl implements BookService {
         this.restTemplate = restTemplate;
         this.propertiesConfig = propertiesConfig;
     }
+
+    @Cacheable(value = "book",key = "book")
     @Override
     public List<Book> getAll() {
         return (List<Book>) bookDao.findAll() ;
@@ -41,6 +48,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book) {
+        LOGGER.info("save book");
         book.setBookId("pu".concat(RandomStringUtils.randomAlphabetic(8)).toUpperCase());
         book.setAvailable(true);
         book.setCreatedAt(new Date(System.currentTimeMillis()));
@@ -49,6 +57,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getById(String id) {
+        LOGGER.info("retrieve book by Id ");
         return bookDao.findById(id).orElseThrow(()->new RestException("no such Book found in the Collection",HttpStatus.NOT_FOUND));
     }
 

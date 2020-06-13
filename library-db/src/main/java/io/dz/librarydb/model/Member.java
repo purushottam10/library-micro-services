@@ -1,5 +1,10 @@
 package io.dz.librarydb.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +18,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "member")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Member implements Serializable {
 
     @Id
@@ -25,53 +34,6 @@ public class Member implements Serializable {
     private Date expiryDate;
     private MemberType memberType = MemberType.TEMP;
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public MemberType getMemberType() {
-        return memberType;
-    }
-
-    public void setMemberType(MemberType memberType) {
-        this.memberType = memberType;
-    }
 
     public enum MemberType{
      PERMANENT,TEMP
