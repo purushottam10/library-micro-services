@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan("io.dz.librarydb")
 @EnableCaching
 public class LibraryDbApplication extends SpringBootServletInitializer {
 

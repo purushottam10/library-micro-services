@@ -1,6 +1,5 @@
 package io.dz.librarydb.service;
 
-
 import io.dz.librarydb.dto.ResponseDto;
 import io.dz.librarydb.model.Book;
 
@@ -20,4 +19,6 @@ public interface BookService {
     List<String> borrowBook(String memberId,List<String> bookIds);
 
     Book returnBook(String bookId,String memberId);
+
+    List<Book> getAllBook();
 }

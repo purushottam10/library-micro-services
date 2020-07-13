@@ -1,5 +1,6 @@
 package io.dz.librarydb.service.impl;
 
+import io.dz.librarydb.dao.BookDaoDsl;
 import io.dz.librarydb.dto.ResponseDto;
 import io.dz.librarydb.util.DateUtil;
 import io.dz.librarydb.config.PropertiesConfig;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,18 +35,22 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
     private RestTemplate restTemplate;
     private PropertiesConfig propertiesConfig;
+    private BookDaoDsl bookDaoDsl;
     @Autowired
-    public BookServiceImpl(BookDao bookDao, RestTemplate restTemplate,PropertiesConfig propertiesConfig) {
+    public BookServiceImpl(BookDao bookDao, RestTemplate restTemplate,BookDaoDsl bookDaoDsl,PropertiesConfig propertiesConfig) {
         this.bookDao = bookDao;
         this.restTemplate = restTemplate;
         this.propertiesConfig = propertiesConfig;
+        this.bookDaoDsl = bookDaoDsl;
     }
 
     @Cacheable(value = "book",key = "'book'")
+
     @Override
     public ResponseDto<Book> getAll() {
         ResponseDto<Book> bookResponseDto = new ResponseDto<>();
         bookResponseDto.setData((List<Book>)bookDao.findAll());
+        bookDaoDsl.getAll();
         return bookResponseDto;
     }
 
@@ -54,11 +60,11 @@ public class BookServiceImpl implements BookService {
         book.setBookId("pu".concat(RandomStringUtils.randomAlphabetic(8)).toUpperCase());
         book.setAvailable(true);
         book.setCreatedAt(new Date(System.currentTimeMillis()));
-        return bookDao.save(book);
+        return bookDaoDsl.save(book);
     }
 
     @Override
-    @Cacheable(value = "book",key = "'bookCache'")
+    @CachePut(value = "book",key = "#id")
     public Book getById(String id) {
         LOGGER.info("retrieve book by Id ");
         return bookDao.findById(id).orElseThrow(()->new RestException("no such Book found in the Collection",HttpStatus.NOT_FOUND));
@@ -131,5 +137,10 @@ public class BookServiceImpl implements BookService {
             return bookDao.save(book);
         }
         throw new RestException("Book not found in Library List", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @Override
+    public List<Book> getAllBook() {
+        return bookDaoDsl.getAll();
     }
 }

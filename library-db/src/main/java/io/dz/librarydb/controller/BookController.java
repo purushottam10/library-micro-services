@@ -40,7 +40,7 @@ public class BookController {
 
     @GetMapping("/getAll")
     public ResponseEntity getAll(){
-        return new ResponseEntity(bookService.getAll(),HttpStatus.OK);
+        return new ResponseEntity(bookService.getAllBook(),HttpStatus.OK);
     }
 
     @PutMapping("/update")

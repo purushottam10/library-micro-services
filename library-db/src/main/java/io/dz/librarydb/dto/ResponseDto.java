@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.description.method.MethodDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,10 @@ public class ResponseDto<T>  implements Serializable {
     private List<T> data = new ArrayList();
     private String nextLink;
     private int count;
+//    private String className = new TypeToken<T>() {}.getClass().getName().toString();
+
 
     public String toString() {
-        return "{ data= " + this.data + " ,\n" + "nextLink = " + this.nextLink + " ,\n" + "count = " + this.count + "}";
+        return "{ data = " + this.data + " ,\n" + "nextLink = " + this.nextLink + " ,\n" + "count = " + this.count + "}";
     }
 }
