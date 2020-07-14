@@ -4,7 +4,6 @@ import io.dz.librarydb.dao.BookDaoDsl;
 import io.dz.librarydb.dto.ResponseDto;
 import io.dz.librarydb.util.DateUtil;
 import io.dz.librarydb.config.PropertiesConfig;
-import io.dz.librarydb.dao.BookDao;
 import io.dz.librarydb.exception.RestException;
 import io.dz.librarydb.model.Book;
 import io.dz.librarydb.model.Member;
@@ -32,13 +31,12 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
-    private BookDao bookDao;
+//    private BookDao bookDao;
     private RestTemplate restTemplate;
     private PropertiesConfig propertiesConfig;
     private BookDaoDsl bookDaoDsl;
     @Autowired
-    public BookServiceImpl(BookDao bookDao, RestTemplate restTemplate,BookDaoDsl bookDaoDsl,PropertiesConfig propertiesConfig) {
-        this.bookDao = bookDao;
+    public BookServiceImpl( RestTemplate restTemplate,BookDaoDsl bookDaoDsl,PropertiesConfig propertiesConfig) {
         this.restTemplate = restTemplate;
         this.propertiesConfig = propertiesConfig;
         this.bookDaoDsl = bookDaoDsl;
@@ -49,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ResponseDto<Book> getAll() {
         ResponseDto<Book> bookResponseDto = new ResponseDto<>();
-        bookResponseDto.setData((List<Book>)bookDao.findAll());
+        bookResponseDto.setData((List<Book>)bookDaoDsl.getAll());
         bookDaoDsl.getAll();
         return bookResponseDto;
     }
@@ -67,19 +65,19 @@ public class BookServiceImpl implements BookService {
     @CachePut(value = "book",key = "#id")
     public Book getById(String id) {
         LOGGER.info("retrieve book by Id ");
-        return bookDao.findById(id).orElseThrow(()->new RestException("no such Book found in the Collection",HttpStatus.NOT_FOUND));
+        return bookDaoDsl.getById(id);
     }
 
     @Override
     public Book update(Book book) {
         this.getById(book.getBookId());
         book.setUpdatedAt(new Date(System.currentTimeMillis()));
-        return bookDao.save(book);
+        return bookDaoDsl.update(book);
     }
 
     @Override
     public void delete(Book book) {
-         bookDao.delete(book);
+         bookDaoDsl.delete(book);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class BookServiceImpl implements BookService {
             throw new RestException("you can't borrow more than 5 book",HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
         }
        }
-        if (!bookDao.findAllAvailableBook().stream().map(Book::getBookId).collect(Collectors.toList()).containsAll(bookIds)) {
+        if (!bookDaoDsl.findAllAvailableBook().stream().map(Book::getBookId).collect(Collectors.toList()).containsAll(bookIds)) {
             throw new RestException("Requested books are Not Available in Library",HttpStatus.NOT_FOUND);
         } else {
             if(Objects.nonNull(userLimit)){
@@ -112,7 +110,7 @@ public class BookServiceImpl implements BookService {
                 book.setDueDate(new Date(System.currentTimeMillis()));
                 book.setReturnDate(DateUtil.addDays(new Date(System.currentTimeMillis()), 7));
                 book.setMemberId(memberId);
-                bookDao.save(book);
+                bookDaoDsl.save(book);
             });
             return bookIds;
          }
@@ -120,7 +118,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book returnBook(String bookId, String memberId) {
-        Book book = bookDao.findIssuedBook(bookId, memberId);
+        Book book = bookDaoDsl.findIssuedBook(bookId, memberId);
         if (Objects.nonNull(book)) {
             book.setDueDate(null);
             book.setReturnDate(null);
@@ -134,7 +132,7 @@ public class BookServiceImpl implements BookService {
             } else {
                 throw new RestException("entery Doesn't match", HttpStatus.NOT_ACCEPTABLE);
             }
-            return bookDao.save(book);
+            return bookDaoDsl.save(book);
         }
         throw new RestException("Book not found in Library List", HttpStatus.NOT_ACCEPTABLE);
     }
