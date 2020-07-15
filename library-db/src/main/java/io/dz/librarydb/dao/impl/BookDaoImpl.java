@@ -27,6 +27,7 @@ public class BookDaoImpl extends BaseDaoImpl<Book> implements BookDaoDsl {
 
     @Override
     public Book findIssuedBook(String bookId, String memberId) {
-        return null;
+        QBook qBook = QBook.book;
+        return (Book) queryFactory.from(qBook).where(qBook.bookId.eq(bookId).and(qBook.memberId.eq(memberId))).fetch().get(0);
     }
 }
