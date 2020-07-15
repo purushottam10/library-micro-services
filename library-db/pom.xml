@@ -49,40 +49,32 @@
             <artifactId>ehcache</artifactId>
             <version>3.8.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
             <version>4.3.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
             <version>4.3.1</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
             <version>8.0.5</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>5.2.7.RELEASE</version>
         </dependency>
-
-
     </dependencies>
 
     <dependencyManagement>
